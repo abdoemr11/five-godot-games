@@ -21,21 +21,22 @@ animations = [ {
 "name": "idle",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "run",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 5 ), ExtResource( 1 ) ],
 "loop": true,
 "name": "hurt",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "run",
 "speed": 8.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10, 12 )
 
-[node name="Area2D" type="Area2D"]
+[node name="Player" type="Area2D"]
+scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -45,7 +46,7 @@ speed = 165
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "idle"
-frame = 3
+frame = 1
 playing = true
 offset = Vector2( 0, -0.5 )
 

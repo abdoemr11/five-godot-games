@@ -58,6 +58,6 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group("coins"):
 		area.pickup()
 		emit_signal("pickup")
-	if area.is_in_grout("obstacles"):
+	if area.is_in_group("obstacles"):
 		emit_signal("hurt")
 		die()
