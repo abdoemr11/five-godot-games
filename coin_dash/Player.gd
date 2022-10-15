@@ -22,7 +22,6 @@ func _process(delta):
 	#prevent the player from going outside the screen coordinate
 	position.x = clamp(position.x, 50, screensize.x)
 	position.y = clamp(position.y, 0, screensize.y - 50 )
-	print(position)
 	
 	#control the animation
 	if velocity.length() > 0 :
@@ -58,7 +57,12 @@ func die():
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("coins"):
 		area.pickup()
-		emit_signal("pickup")
+		emit_signal("pickup", "coin")
+		
+	if area.is_in_group("powerups"):
+		area.pickup()
+		emit_signal("pickup", "powerup")
+		
 	if area.is_in_group("obstacles"):
 		emit_signal("hurt")
 		die()

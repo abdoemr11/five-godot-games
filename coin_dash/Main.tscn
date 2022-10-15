@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/grass.png" type="Texture" id=2]
 [ext_resource path="res://Coin.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/audio/Level.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/audio/Coin.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/Hit.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/audio/Powerup.wav" type="AudioStream" id=9]
+[ext_resource path="res://Powerup.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Cactus.tscn" type="PackedScene" id=11]
 
 [node name="Main" type="Node2D"]
 position = Vector2( -42, 45 )
@@ -14,6 +20,8 @@ __meta__ = {
 }
 Coin = ExtResource( 3 )
 playtime = 30
+PowerUp = ExtResource( 10 )
+Obstacle = ExtResource( 11 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -39,7 +47,29 @@ position = Vector2( 240, 350 )
 
 [node name="HUD" parent="." instance=ExtResource( 5 )]
 
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="CoinSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 7 )
+
+[node name="EndSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 8 )
+
+[node name="LevelSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 6 )
+
+[node name="PowerUpSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 9 )
+
+[node name="PowerUpTimer" type="Timer" parent="."]
+
+[node name="Powerups" type="Node2D" parent="."]
+
+[node name="ObstacleTimer" type="Timer" parent="."]
+
 [connection signal="hurt" from="Player" to="." method="_on_Player_hurt"]
 [connection signal="pickup" from="Player" to="." method="_on_Player_pickup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_GameTimer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
+[connection signal="timeout" from="PowerUpTimer" to="." method="_on_PowerUpTimer_timeout"]
+[connection signal="timeout" from="ObstacleTimer" to="." method="_on_ObstacleTimer_timeout"]

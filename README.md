@@ -5,5 +5,9 @@
  - [x] Main Scene
  - [x] User Interface 
  - [ ] Finishing up
-   - [ ] Visual Effects
-   - [ ]  
+   - [x] Visual Effects (Tween)
+   - [x] Sound
+   - [x] Powerups
+   - [x] Random Coin animation
+  - [x] Obstacles
+
