@@ -3,4 +3,7 @@
  - [x] Player
  - [x] Coin
  - [x] Main Scene
- - [ ] User Interface 
+ - [x] User Interface 
+ - [ ] Finishing up
+   - [ ] Visual Effects
+   - [ ]  

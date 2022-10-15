@@ -21,22 +21,21 @@ animations = [ {
 "name": "idle",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "hurt",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "run",
 "speed": 8.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "hurt",
+"speed": 8.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 12 )
+extents = Vector2( 12, 19.5 )
 
 [node name="Player" type="Area2D"]
-scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -44,14 +43,14 @@ __meta__ = {
 speed = 165
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
 animation = "idle"
-frame = 1
+frame = 3
 playing = true
-offset = Vector2( 0, -0.5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 3 )
+position = Vector2( -1, 10.5 )
 shape = SubResource( 2 )
 
 [connection signal="area_entered" from="." to="." method="_on_Area2D_area_entered"]

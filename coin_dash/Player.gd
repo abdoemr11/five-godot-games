@@ -20,8 +20,9 @@ func _process(delta):
 	position += velocity *delta
 	
 	#prevent the player from going outside the screen coordinate
-	position.x = clamp(position.x, 0, screensize.x)
-	position.y = clamp(position.y, 0, screensize.y)
+	position.x = clamp(position.x, 50, screensize.x)
+	position.y = clamp(position.y, 0, screensize.y - 50 )
+	print(position)
 	
 	#control the animation
 	if velocity.length() > 0 :

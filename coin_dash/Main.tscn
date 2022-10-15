@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/grass.png" type="Texture" id=2]
 [ext_resource path="res://Coin.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Node2D"]
+position = Vector2( -42, 45 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -13,9 +15,13 @@ __meta__ = {
 Coin = ExtResource( 3 )
 playtime = 30
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -21.0
+margin_top = -96.0
+margin_right = 566.0
+margin_bottom = 695.0
 texture = ExtResource( 2 )
 stretch_mode = 2
 __meta__ = {
@@ -30,3 +36,10 @@ __meta__ = {
 position = Vector2( 240, 350 )
 
 [node name="GameTimer" type="Timer" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource( 5 )]
+
+[connection signal="hurt" from="Player" to="." method="_on_Player_hurt"]
+[connection signal="pickup" from="Player" to="." method="_on_Player_pickup"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_GameTimer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
