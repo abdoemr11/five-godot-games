@@ -1,4 +1,4 @@
 ## Coin Dash
  - [x] Project setub
- - [ ] Player
+ - [x] Player
  - [ ] Coin
