@@ -11,3 +11,7 @@
    - [x] Random Coin animation
   - [x] Obstacles
 
+## Escape the Maze
+  - [x] Project setup
+  - [x] Character
+  - [ ] Player  
