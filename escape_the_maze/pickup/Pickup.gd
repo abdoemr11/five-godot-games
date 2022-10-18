@@ -3,17 +3,19 @@ extends Area2D
 # These textures can be choosen later when spwaning in the scene
 var textures = {
 	'coin': "res://assets/coin.png",
-	'red_key': "res://assets/keyRed.png",
+	'key_red': "res://assets/keyRed.png",
 	'star': "res://assets/star.png"
 }
 
 var type
 
+signal coin_pickup
+
 func _ready():
-	$Tween.interpolate_property($Sprite, scale, Vector2(1,1),
+	$Tween.interpolate_property($Sprite, 'scale', Vector2(1,1),
 		Vector2(2,1), .5, Tween.TRANS_QUAD, Tween.EASE_IN )
 	
-	$Tween.interpolate_property($Sprite, modulate, Color(1,1,1,1),
+	$Tween.interpolate_property($Sprite, 'modulate', Color(1,1,1,1),
 		Color(1,1,1,0), .5, Tween.TRANS_QUAD, Tween.EASE_IN )
 
 #call this function when 
@@ -22,7 +24,11 @@ func init(_type, pos):
 	type = _type
 	position = pos
 
-func pickup(): 
+func pickup():
+	match type:
+		'coin':
+			emit_signal("coin_pickup", 1)
+			
 	$CollisionShape2D.disabled = true
 	$Tween.start()
 
