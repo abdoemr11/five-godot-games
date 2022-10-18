@@ -14,4 +14,6 @@
 ## Escape the Maze
   - [x] Project setup
   - [x] Character
-  - [ ] Player  
+  - [x] Player
+  - [ ] Enemy
+
