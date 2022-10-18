@@ -15,5 +15,8 @@
   - [x] Project setup
   - [x] Character
   - [x] Player
-  - [ ] Enemy
+  - [x] Enemy
+  - [ ] Creating the level
+    - [ ] Items 
+    - [ ] TileSets
 
