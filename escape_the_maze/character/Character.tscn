@@ -119,3 +119,5 @@ cast_to = Vector2( 0, -64 )
 [node name="RayCastDown" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 0, 64 )
+
+[connection signal="tween_completed" from="MoveTween" to="." method="_on_MoveTween_tween_completed"]

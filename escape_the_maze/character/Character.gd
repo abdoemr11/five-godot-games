@@ -31,3 +31,7 @@ func move(dir):
 				1.0/ speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	$MoveTween.start()
 	return true
+
+
+func _on_MoveTween_tween_completed(object, key):
+	can_move = true
