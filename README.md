@@ -32,7 +32,10 @@
   - [ ] build the game and send it to my friends
 
 ## Space Rocks
- - [ ] Project Setup
- - [ ] RigidBody physics 
- - [ ] Player ship
+ - [x] Project Setup
+ - [x] RigidBody physics 
+ - [x] Player ship
+ - [x] Shooting
+ - [x] Rocks
+ - [ ] Explosion
  
