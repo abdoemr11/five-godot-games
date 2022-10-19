@@ -28,5 +28,11 @@
   - [x] score
   - [x] save high score
   - [x] death animation 
-  - [ ] sound effects
+  - [x] sound effects
+  - [ ] build the game and send it to my friends
 
+## Space Rocks
+ - [ ] Project Setup
+ - [ ] RigidBody physics 
+ - [ ] Player ship
+ 
