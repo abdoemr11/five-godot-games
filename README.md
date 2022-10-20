@@ -37,5 +37,9 @@
  - [x] Player ship
  - [x] Shooting
  - [x] Rocks
- - [ ] Explosion
+ - [x] Explosion
+ - [x] UI
+ - [ ] Game over
+ 
+ 
  

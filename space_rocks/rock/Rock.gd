@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+signal exploded
+
 var screensize = Vector2()
 var size
 var radius
@@ -17,7 +19,17 @@ func start(pos, vel, _size):
 	print (vel)
 	linear_velocity = vel
 	angular_velocity = rand_range(-1.5, 1.5)
-
+	
+	###
+	$Explosion.scale = Vector2(.75, .75)*size
+func explode():
+	layers = 0
+	$Sprite.hide()
+	$Explosion/AnimationPlayer.play("explosion")
+	emit_signal("exploded", size, radius, position, linear_velocity)
+	linear_velocity = Vector2()
+	angular_velocity = 0
+	
 func  _integrate_forces(state):
 	var xform = state.get_transform()
 	if xform.origin.x > screensize.x + radius:
@@ -30,3 +42,7 @@ func  _integrate_forces(state):
 	if xform.origin.y < 0 - radius:
 		xform.origin.y = screensize.y + radius
 	state.set_transform(xform)
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	queue_free()

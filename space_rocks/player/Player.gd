@@ -16,11 +16,12 @@ var screen_size = Vector2()
 signal shoot
 export (PackedScene) var Bullet
 export (float) var fire_rate
-
 var can_shoot = true
 
+signal lives_changed
+var lives = 0 setget set_lives
 func _ready():
-	change_state(ALIVE)
+	change_state(INIT)
 	screen_size = get_viewport().get_visible_rect().size
 	$GunTimer.wait_time = fire_rate
 	
@@ -58,7 +59,11 @@ func get_input():
 	#fire input
 	if Input.is_action_pressed("shoot") and can_shoot:
 		shoot()
-	
+
+func start():
+	$Sprite.show()
+	self.lives = 2
+	change_state(ALIVE)	
 func shoot():
 	if state == INVULNERABLE:
 		return
@@ -78,6 +83,9 @@ func change_state(new_state):
 			$CollisionShape2D.disabled = true
 	state = new_state
 
-
+func set_lives(value):
+	lives = value
+	print(lives)
+	emit_signal("lives_changed", lives)
 func _on_GunTimer_timeout():
 	can_shoot = true
