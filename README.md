@@ -39,7 +39,9 @@
  - [x] Rocks
  - [x] Explosion
  - [x] UI
- - [ ] Game over
+ - [x] Game over
+ - [ ] Pausing the game
+ 
  
  
  

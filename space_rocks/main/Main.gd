@@ -15,6 +15,7 @@ func _ready():
 	$Player.screen_size = screensize
 	for i in range(3):
 		spawn_rock(3)
+	get_viewport().connect("size_changed",self, "_on_Size_changed")
 
 func _process(delta):
 	#win level condition
@@ -77,3 +78,11 @@ func _on_Player_shoot(Bullet, pos, dir):
 	var b = Bullet.instance()
 	b.start(pos, dir)
 	add_child(b)
+
+
+func _on_Size_changed():
+	print("rect changed")
+	screensize = get_viewport().get_visible_rect().size
+	$Player.screen_size = screensize
+	for r in $Rocks.get_children():
+		r.screensize = screensize

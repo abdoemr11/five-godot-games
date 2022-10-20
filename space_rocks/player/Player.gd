@@ -19,7 +19,9 @@ export (float) var fire_rate
 var can_shoot = true
 
 signal lives_changed
+signal dead
 var lives = 0 setget set_lives
+
 func _ready():
 	change_state(INIT)
 	screen_size = get_viewport().get_visible_rect().size
@@ -75,12 +77,20 @@ func change_state(new_state):
 	match new_state:
 		INIT:
 			$CollisionShape2D.disabled = true
+			$Sprite.modulate.a = 0.5
 		ALIVE:
 			$CollisionShape2D.disabled = false
+			$Sprite.modulate.a = 1.0
 		INVULNERABLE:
 			$CollisionShape2D.disabled = true
+			$Sprite.modulate.a = 0.5
+			$InvulerableTimer.start()
+			
 		DEAD:
 			$CollisionShape2D.disabled = true
+			$Sprite.hide()
+			linear_velocity = Vector2()
+			emit_signal("dead")
 	state = new_state
 
 func set_lives(value):
@@ -89,3 +99,23 @@ func set_lives(value):
 	emit_signal("lives_changed", lives)
 func _on_GunTimer_timeout():
 	can_shoot = true
+
+
+func _on_InvulerableTimer_timeout():
+	change_state(ALIVE)
+
+
+func _on_Player_body_entered(body):
+	if body.is_in_group("rocks"):
+		body.explode()
+		$Explosion.show()
+		$Explosion/AnimationPlayer.play("explosion")
+		self.lives -= 1
+		if lives <=0:
+			change_state(DEAD)
+		else:
+			change_state(INVULNERABLE)
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	$Explosion.hide()
