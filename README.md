@@ -40,7 +40,13 @@
  - [x] Explosion
  - [x] UI
  - [x] Game over
- - [ ] Pausing the game
+ - [x] Pausing the game
+ - [ ] Enemies
+	- [x] EnemiesPath
+	- [x] Moving the Enemies
+	- [ ] Spawing the enemies
+	- [ ] shooting
+	
  
  
  

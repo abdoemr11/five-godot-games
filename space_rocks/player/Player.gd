@@ -106,6 +106,7 @@ func _on_InvulerableTimer_timeout():
 
 
 func _on_Player_body_entered(body):
+	print($CollisionShape2D.disabled)
 	if body.is_in_group("rocks"):
 		body.explode()
 		$Explosion.show()

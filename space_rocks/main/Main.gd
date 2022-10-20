@@ -9,6 +9,8 @@ var level = 0
 var score = 0
 var playing = false
 
+#
+export (PackedScene) var Enemy
 func _ready():
 	randomize()
 	screensize = get_viewport().get_visible_rect().size
@@ -21,7 +23,19 @@ func _process(delta):
 	#win level condition
 	if playing and $Rocks.get_child_count() == 0:
 		new_level()
-		
+
+func _input(event):
+	if event.is_action_pressed('pause'):
+		if not playing:
+			return
+		get_tree().paused = not get_tree().paused
+		if get_tree().paused:
+			$HUD/MessageLabel.text = "Paused"
+			$HUD/MessageLabel.show()
+		else:
+			$HUD/MessageLabel.hide()			
+			$HUD/MessageLabel.text = ""
+			
 func new_game():
 	for r in $Rocks.get_children():
 		r.queue_free()
@@ -45,7 +59,10 @@ func new_level():
 	#spawn rocks according to the current level
 	for i in range(level):
 		spawn_rock(3)	
-
+	
+	# setting the enemy timer
+	$EnemyTimer.wait_time = rand_range(5, 10)
+	$EnemyTimer.start()
 func game_over():
 	playing = false
 	$HUD.game_over()
@@ -86,3 +103,15 @@ func _on_Size_changed():
 	$Player.screen_size = screensize
 	for r in $Rocks.get_children():
 		r.screensize = screensize
+
+
+func _on_EnemyTimer_timeout():
+	var e = Enemy.instance()
+	add_child(e)
+	e.target = $Player
+	e.connect('shoot', self, '_on_Player_shoot')
+	
+	#restart the enemy spawn timer but after long time
+	$EnemyTimer.wait_time = rand_range(5, 10)
+	$EnemyTimer.start()
+	
