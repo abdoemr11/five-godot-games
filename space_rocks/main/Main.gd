@@ -48,23 +48,26 @@ func new_game():
 	
 	$HUD.show_message("Get Ready !")
 	yield($HUD/MessageTimer, "timeout")
-	
+	$Music.play()
 	playing = true
 	new_level()
 
 func new_level():
 	level+=1
 	$HUD.show_message("Wave %s" % level)
+	$LevelUpSound.play()
 	
 	#spawn rocks according to the current level
+	
 	for i in range(level):
 		spawn_rock(3)	
 	
 	# setting the enemy timer
-	$EnemyTimer.wait_time = rand_range(5, 10)
+	$EnemyTimer.wait_time = rand_range(1, 2)
 	$EnemyTimer.start()
 func game_over():
 	playing = false
+	$Music.stop()
 	$HUD.game_over()
 	
 func spawn_rock(size, pos=null, vel=null):
@@ -90,6 +93,7 @@ func _on_Rock_exploded(size, radius, pos, vel):
 		var newpos = pos + dir * radius
 		var newvel = dir * vel.length() * 1.1 
 		spawn_rock(size-1, newpos, newvel)
+	$ExplosionSound.play()
 		
 func _on_Player_shoot(Bullet, pos, dir):
 	var b = Bullet.instance()

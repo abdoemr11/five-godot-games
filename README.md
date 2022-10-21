@@ -44,9 +44,9 @@
  - [ ] Enemies
 	- [x] EnemiesPath
 	- [x] Moving the Enemies
-	- [ ] Spawing the enemies
+	- [x] Spawing the enemies
 	- [ ] shooting
-	
+ - [ ] Sound Music
  
  
  

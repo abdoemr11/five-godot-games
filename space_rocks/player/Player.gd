@@ -51,6 +51,10 @@ func get_input():
 		return
 	if Input.is_action_pressed("thrust"):
 		thrust = Vector2(engine_power, 0)
+		if not $EngineSound.playing:
+			$EngineSound.play()
+	else:
+		$EngineSound.stop()
 	
 	rotation_dir = 0
 	if Input.is_action_pressed("rotate_left"):
@@ -72,6 +76,7 @@ func shoot():
 	emit_signal("shoot", Bullet, $Muzzle.global_position, rotation)
 	can_shoot = false
 	$GunTimer.start()
+	$LaserSound.play()
 	
 func change_state(new_state):
 	match new_state:
@@ -90,6 +95,7 @@ func change_state(new_state):
 			$CollisionShape2D.disabled = true
 			$Sprite.hide()
 			linear_velocity = Vector2()
+			$EngineSound.stop()
 			emit_signal("dead")
 	state = new_state
 
@@ -97,6 +103,7 @@ func set_lives(value):
 	lives = value
 	print(lives)
 	emit_signal("lives_changed", lives)
+	
 func _on_GunTimer_timeout():
 	can_shoot = true
 
@@ -106,13 +113,13 @@ func _on_InvulerableTimer_timeout():
 
 
 func _on_Player_body_entered(body):
-	print($CollisionShape2D.disabled)
+	
 	if body.is_in_group("rocks"):
 		body.explode()
 		$Explosion.show()
 		$Explosion/AnimationPlayer.play("explosion")
 		self.lives -= 1
-		if lives <=0:
+		if lives <= 0:
 			change_state(DEAD)
 		else:
 			change_state(INVULNERABLE)
