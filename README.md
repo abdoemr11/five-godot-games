@@ -41,13 +41,20 @@
  - [x] UI
  - [x] Game over
  - [x] Pausing the game
- - [ ] Enemies
+ - [x] Enemies
 	- [x] EnemiesPath
 	- [x] Moving the Enemies
 	- [x] Spawing the enemies
-	- [ ] shooting
- - [ ] Sound Music
+	- [x] shooting
+ - [x] Sound Music
+ - [x] Particle
+ - [x] Player shield
  
- 
+ ## Jungle Jump
+ - [x] Project Settings
+ - [ ] Player Scene
+	- [x] Animation 
+	- [x] Movement 
+	- [ ] Health 
  
  
