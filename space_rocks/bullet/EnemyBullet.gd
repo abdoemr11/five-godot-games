@@ -20,4 +20,5 @@ func _on_Bullet_body_entered(body):
 	print(body)
 	if body.name == 'Player':
 		print("Enemy Laser hit player")
+		body.shield -= 50
 		queue_free()

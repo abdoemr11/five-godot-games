@@ -63,7 +63,7 @@ func new_level():
 		spawn_rock(3)	
 	
 	# setting the enemy timer
-	$EnemyTimer.wait_time = rand_range(1, 2)
+	$EnemyTimer.wait_time = rand_range(5, 10)
 	$EnemyTimer.start()
 func game_over():
 	playing = false
@@ -100,6 +100,8 @@ func _on_Player_shoot(Bullet, pos, dir):
 	b.start(pos, dir)
 	add_child(b)
 
+func _on_Enemy_exploded():
+	$ExplosionSound.play()
 
 func _on_Size_changed():
 	print("rect changed")
@@ -114,7 +116,7 @@ func _on_EnemyTimer_timeout():
 	add_child(e)
 	e.target = $Player
 	e.connect('shoot', self, '_on_Player_shoot')
-	
+	e.connect('exploded', self, '_on_Enemy_exploded')
 	#restart the enemy spawn timer but after long time
 	$EnemyTimer.wait_time = rand_range(5, 10)
 	$EnemyTimer.start()

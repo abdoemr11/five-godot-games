@@ -1,6 +1,7 @@
 extends Area2D
 
 signal shoot
+signal exploded
 
 export (PackedScene) var Bullet
 
@@ -55,6 +56,7 @@ func explode():
 	
 	$Explosion.show()
 	$Explosion/AnimationPlayer.play("explosion")
+	emit_signal("exploded")
 func _on_AnimationPlayer_animation_finished(anim_name):
 	queue_free()
 
@@ -66,5 +68,5 @@ func _on_GunTimer_timeout():
 
 func _on_Enemy_body_entered(body):
 	if body.name == 'Player':
-		pass
+		body.shield -= 50
 	explode()

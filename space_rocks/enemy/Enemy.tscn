@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/enemy_saucer.png" type="Texture" id=1]
 [ext_resource path="res://enemy/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://explosion/Explosion.tscn" type="PackedScene" id=3]
 [ext_resource path="res://enemy/EnemyPaths.tscn" type="PackedScene" id=4]
 [ext_resource path="res://bullet/EnemyBullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/corona.png" type="Texture" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 36.3456
@@ -70,6 +71,25 @@ tracks/0/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
+[sub_resource type="CanvasItemMaterial" id=5]
+blend_mode = 1
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 0.186364 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=8]
+emission_shape = 2
+emission_box_extents = Vector3( 25, 25, 1 )
+flag_disable_z = true
+spread = 25.0
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale_curve = SubResource( 7 )
+
 [node name="Enemy" type="Area2D" groups=["enemies"]]
 position = Vector2( 90, 60 )
 script = ExtResource( 2 )
@@ -101,6 +121,13 @@ wait_time = 1.5
 autostart = true
 
 [node name="EnemyPaths" parent="." instance=ExtResource( 4 )]
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = SubResource( 5 )
+amount = 20
+local_coords = false
+process_material = SubResource( 8 )
+texture = ExtResource( 6 )
 
 [connection signal="body_entered" from="." to="." method="_on_Enemy_body_entered"]
 [connection signal="animation_finished" from="Explosion/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

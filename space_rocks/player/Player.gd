@@ -18,6 +18,13 @@ export (PackedScene) var Bullet
 export (float) var fire_rate
 var can_shoot = true
 
+#health variables
+signal shield_changed
+export (int) var max_shield
+export (float) var shield_regen
+
+var shield = 0 setget set_shield 
+var old_shield  = 0
 signal lives_changed
 signal dead
 var lives = 0 setget set_lives
@@ -29,6 +36,8 @@ func _ready():
 	
 func _process(delta):
 	get_input()
+		#regenerate the shield
+	self.shield += shield_regen * delta	
 
 func _integrate_forces(physics_state):
 	set_applied_force(thrust.rotated(rotation))
@@ -43,14 +52,18 @@ func _integrate_forces(physics_state):
 		xform.origin.y = 0
 	if xform.origin.y < 0:
 		xform.origin.y = screen_size.y	
-	physics_state.set_transform(xform)	
+	physics_state.set_transform(xform)
+	
+
 	
 func get_input():
+	$Exhaust.emitting = false
 	thrust = Vector2()
 	if state in [INIT, DEAD]:
 		return
 	if Input.is_action_pressed("thrust"):
 		thrust = Vector2(engine_power, 0)
+		$Exhaust.emitting = true
 		if not $EngineSound.playing:
 			$EngineSound.play()
 	else:
@@ -59,8 +72,10 @@ func get_input():
 	rotation_dir = 0
 	if Input.is_action_pressed("rotate_left"):
 		rotation_dir = -1
+		print("rotating left")
 	if Input.is_action_pressed("rotate_right"):
 		rotation_dir = 1
+		print("rotating right")
 	
 	#fire input
 	if Input.is_action_pressed("shoot") and can_shoot:
@@ -69,7 +84,9 @@ func get_input():
 func start():
 	$Sprite.show()
 	self.lives = 2
-	change_state(ALIVE)	
+	self.shield = max_shield
+	print("Player shield is " + str(self.shield))
+	change_state(INVULNERABLE)	
 func shoot():
 	if state == INVULNERABLE:
 		return
@@ -81,29 +98,49 @@ func shoot():
 func change_state(new_state):
 	match new_state:
 		INIT:
-			$CollisionShape2D.disabled = true
+			$CollisionShape2D.set_deferred('disabled', true)
 			$Sprite.modulate.a = 0.5
 		ALIVE:
-			$CollisionShape2D.disabled = false
+			$CollisionShape2D.set_deferred('disabled', false)
 			$Sprite.modulate.a = 1.0
 		INVULNERABLE:
-			$CollisionShape2D.disabled = true
+			#$CollisionShape2D.disabled = true
+			$CollisionShape2D.set_deferred('disabled', true)
 			$Sprite.modulate.a = 0.5
 			$InvulerableTimer.start()
 			
 		DEAD:
-			$CollisionShape2D.disabled = true
+			$CollisionShape2D.set_deferred('disabled', true)
 			$Sprite.hide()
 			linear_velocity = Vector2()
 			$EngineSound.stop()
 			emit_signal("dead")
 	state = new_state
+	print("changed satate", state)
 
 func set_lives(value):
 	lives = value
 	print(lives)
+	self.shield = max_shield
+	if lives <= 0:
+			change_state(DEAD)
 	emit_signal("lives_changed", lives)
+
+func set_shield(value):
 	
+	if value > max_shield:
+		value = max_shield
+	#print("Old shield, current shield", str(old_shield), " ", str(shield))
+	if old_shield > value:
+		change_state(INVULNERABLE)
+		print("Shield is reduced")
+	shield = value
+	#change_state(INVULNERABLE)
+	emit_signal("shield_changed", shield/max_shield * 100)
+	old_shield = value
+	if shield <= 0:
+		self.lives -= 1	
+		
 func _on_GunTimer_timeout():
 	can_shoot = true
 
@@ -118,11 +155,12 @@ func _on_Player_body_entered(body):
 		body.explode()
 		$Explosion.show()
 		$Explosion/AnimationPlayer.play("explosion")
-		self.lives -= 1
-		if lives <= 0:
-			change_state(DEAD)
-		else:
-			change_state(INVULNERABLE)
+		self.shield -= body.size *25
+#		self.lives -= 1
+#		if lives <= 0:
+#			change_state(DEAD)
+#		else:
+#			change_state(INVULNERABLE)
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):

@@ -53,6 +53,7 @@ stream = ExtResource( 9 )
 [connection signal="item_rect_changed" from="." to="." method="_on_Main_item_rect_changed"]
 [connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
+[connection signal="shield_changed" from="Player" to="HUD" method="update_shield"]
 [connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_EnemyTimer_timeout"]
