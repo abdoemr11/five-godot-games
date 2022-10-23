@@ -12,13 +12,21 @@ export (int) var jump_speed
 export (int) var gravity
 
 var velocity = Vector2()
+
+#Health variables
+signal life_changed
+signal dead
+
+var life
+
 func _ready():
 	change_state(IDLE)
 
 func _physics_process(delta):
 	velocity.y += gravity *delta
 	get_input()
-	
+	if velocity.y > 0 and state == JUMP:
+		new_anim = 'jump_down'
 	if new_anim != anim:
 		anim = new_anim
 		$AnimationPlayer.play(anim)
@@ -27,6 +35,7 @@ func _physics_process(delta):
 func get_input():
 	if state == HURT:
 		return
+		
 	var right = Input.is_action_pressed("right")
 	var left = Input.is_action_pressed("left")
 	var jump = Input.is_action_just_pressed("jump")
@@ -53,6 +62,8 @@ func get_input():
 		change_state(JUMP)
 	if state == JUMP and is_on_floor():
 		change_state(IDLE)
+		
+
 
 	
 func change_state(new_state):
@@ -64,13 +75,33 @@ func change_state(new_state):
 			new_anim = 'run'
 		HURT:
 			new_anim = 'hurt'
+			#add bounce effect to the player
+			velocity.y = -200
+			velocity.x = -100 * sign(velocity.x)
+			
+			life -= 1
+			emit_signal("life_changed", life)
+			yield(get_tree().create_timer(.5), "timeout")
+			
+			change_state(IDLE)
+			if life <= 0:
+				change_state(DEAD)
 		JUMP:
-			if velocity.y > 0:
-				new_anim = 'jump_down'
-			else:	
-				new_anim = 'jump_up'
+
+				
+			new_anim = 'jump_up'
 		DEAD:
 			hide()
 	print(state, " ", new_anim)
-	
 
+func start(pos):
+	position = pos
+	show()
+	life = 3
+	#Notify the HUD
+	emit_signal("life_changed", life)
+	change_state(IDLE)
+	
+func hurt():
+	if state != HURT:
+		change_state(HURT)

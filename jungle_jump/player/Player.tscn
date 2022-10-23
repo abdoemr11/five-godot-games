@@ -133,3 +133,4 @@ anims/run = SubResource( 4 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.4, 0.4 )
+limit_top = 0
