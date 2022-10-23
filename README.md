@@ -52,9 +52,14 @@
  
  ## Jungle Jump
  - [x] Project Settings
- - [ ] Player Scene
+ - [x] Player Scene
 	- [x] Animation 
 	- [x] Movement 
-	- [ ] Health 
+	- [x] Health 
+- [x] Collectible 
+- [x] Level 
+- [ ] Scrolling background 
+- [ ] Dangerous Objects
+- [ ] Enemies
  
  
