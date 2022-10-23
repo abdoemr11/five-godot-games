@@ -63,6 +63,7 @@
 - [x] Enemies
 - [x] HUD
 - [x] Title screen
-- [ ] Main Scene
+- [x] Main Scene
+- [ ] Level transition
  
  

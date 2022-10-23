@@ -37,4 +37,4 @@ func _on_Collectible_pickup():
 	emit_signal("score_changed", score)
 
 func _on_Player_dead():
-	pass
+	GameState.restart()
