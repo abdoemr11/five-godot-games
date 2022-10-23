@@ -19,6 +19,10 @@ signal dead
 
 var life
 
+#Double Jump variable
+var max_jumps = 2
+var jump_count = 0
+
 func _ready():
 	change_state(IDLE)
 
@@ -41,14 +45,19 @@ func _physics_process(delta):
 		
 		if collision.collider.name == 'Danger':
 			hurt()
-			
+		
 		if collision.collider.is_in_group('enemies'):
 			var player_feet = (position + $CollisionShape2D.shape.extents).y
 			if player_feet < collision.collider.position.y:
+				$EnemyHitSound.play()
 				collision.collider.take_damage()
 				velocity.y = -200
 			else:
 				hurt()
+	
+	#prevent infinite falling
+	if position.y > 1000:
+		change_state(DEAD)
 	
 func get_input():
 	if state == HURT:
@@ -70,6 +79,11 @@ func get_input():
 		print("Jumping")
 		velocity.y = jump_speed
 		
+	#Double jump
+	if jump and state == JUMP and jump_count < max_jumps:
+		new_anim = 'jump_up'
+		velocity.y = jump_speed/1.5
+		jump_count += 1	
 	# Handle State transistions 
 	#refer to the state diagram page 162
 	if state == IDLE and velocity.x != 0:
@@ -78,9 +92,11 @@ func get_input():
 		change_state(IDLE)
 	if state in [IDLE, RUN] and !is_on_floor():
 		change_state(JUMP)
+		
 	if state == JUMP and is_on_floor():
 		change_state(IDLE)
-		
+		$Dust.emitting = true
+
 
 
 	
@@ -92,6 +108,7 @@ func change_state(new_state):
 		RUN:
 			new_anim = 'run'
 		HURT:
+			$HurtSound.play()
 			new_anim = 'hurt'
 			#add bounce effect to the player
 			velocity.y = -200
@@ -105,11 +122,11 @@ func change_state(new_state):
 			if life <= 0:
 				change_state(DEAD)
 		JUMP:
-
-				
+			$JumpSound.play()
 			new_anim = 'jump_up'
+			jump_count = 1
 		DEAD:
-			hide()
+			emit_signal("dead")
 	print(state, " ", new_anim)
 
 func start(pos):

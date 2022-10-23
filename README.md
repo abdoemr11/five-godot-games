@@ -65,6 +65,10 @@
 - [x] Title screen
 - [x] Main Scene
 - [x] Level transition
-- [ ] Sound Effects
+- [x] Sound Effects
+- [x] Double Jump
+- [x] Dust particles
+- [ ] Crouching state
+- [ ] Climping Ladder
  
  

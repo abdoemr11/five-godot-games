@@ -35,7 +35,10 @@ func spawn_pickups():
 func _on_Collectible_pickup():
 	score += 1
 	emit_signal("score_changed", score)
-
+	$PickupSound.play()
+	yield($PickupSound, "finished")
+	print("the sound should play")
+	
 func _on_Player_dead():
 	GameState.restart()
 
