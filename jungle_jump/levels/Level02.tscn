@@ -22,10 +22,7 @@ jump_speed = -200
 gravity = 400
 
 [node name="PlayerSpawn" parent="." index="6"]
-position = Vector2( 2212, 132 )
+position = Vector2( 0, 132 )
 
 [node name="Enemy" parent="." index="7" instance=ExtResource( 2 )]
 position = Vector2( 2021, 169 )
-
-[node name="Door" parent="." index="9"]
-position = Vector2( 2521, 46 )

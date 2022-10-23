@@ -133,12 +133,15 @@ __meta__ = {
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = -50.0
+margin_left = -495.0
 margin_top = 324.0
-margin_right = 1077.0
+margin_right = 1436.0
 margin_bottom = 692.0
 texture = ExtResource( 2 )
 stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5

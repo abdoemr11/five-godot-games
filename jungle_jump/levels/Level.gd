@@ -38,3 +38,9 @@ func _on_Collectible_pickup():
 
 func _on_Player_dead():
 	GameState.restart()
+
+
+
+
+func _on_Door_body_entered(body):
+	GameState.next_level()

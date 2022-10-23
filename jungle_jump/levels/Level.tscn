@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://levels/Level.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/environment/layers/back.png" type="Texture" id=6]
 [ext_resource path="res://assets/environment/layers/middle.png" type="Texture" id=7]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=8]
+[ext_resource path="res://items/Door.tscn" type="PackedScene" id=9]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 2 )
@@ -80,5 +81,8 @@ __meta__ = {
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource( 8 )]
 
+[node name="Door" parent="." instance=ExtResource( 9 )]
+
 [connection signal="score_changed" from="." to="CanvasLayer/HUD" method="_on_score_changed"]
 [connection signal="life_changed" from="Player" to="CanvasLayer/HUD" method="_on_Player_life_changed"]
+[connection signal="body_entered" from="Door" to="." method="_on_Door_body_entered"]

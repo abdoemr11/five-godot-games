@@ -64,6 +64,7 @@
 - [x] HUD
 - [x] Title screen
 - [x] Main Scene
-- [ ] Level transition
+- [x] Level transition
+- [ ] Sound Effects
  
  
