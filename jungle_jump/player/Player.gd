@@ -24,13 +24,31 @@ func _ready():
 
 func _physics_process(delta):
 	velocity.y += gravity *delta
-	get_input()
+	
 	if velocity.y > 0 and state == JUMP:
 		new_anim = 'jump_down'
 	if new_anim != anim:
 		anim = new_anim
 		$AnimationPlayer.play(anim)
+		
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+	get_input()
+	#Prevent unnecessary calaculation
+	if state == HURT:
+		return
+	for idx in range(get_slide_count()):
+		var collision = get_slide_collision(idx)
+		
+		if collision.collider.name == 'Danger':
+			hurt()
+			
+		if collision.collider.is_in_group('enemies'):
+			var player_feet = (position + $CollisionShape2D.shape.extents).y
+			if player_feet < collision.collider.position.y:
+				collision.collider.take_damage()
+				velocity.y = -200
+			else:
+				hurt()
 	
 func get_input():
 	if state == HURT:

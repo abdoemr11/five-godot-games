@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/HUD.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/heart.png" type="Texture" id=2]
+[ext_resource path="res://ui/HUD.gd" type="Script" id=3]
+
+[node name="HUD" type="MarginContainer"]
+anchor_right = 1.0
+margin_bottom = 40.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 974.0
+margin_bottom = 77.0
+
+[node name="ScoreLabel" type="Label" parent="HBoxContainer"]
+margin_top = 1.0
+margin_right = 614.0
+margin_bottom = 55.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 5
+custom_constants/shadow_offset_y = 5
+custom_constants/shadow_as_outline = 5
+custom_fonts/font = ExtResource( 1 )
+text = "1"
+
+[node name="LifeContainer" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 618.0
+margin_right = 954.0
+margin_bottom = 57.0
+
+[node name="L1" type="TextureRect" parent="HBoxContainer/LifeContainer"]
+margin_right = 64.0
+margin_bottom = 57.0
+texture = ExtResource( 2 )
+stretch_mode = 6
+
+[node name="L2" type="TextureRect" parent="HBoxContainer/LifeContainer"]
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 57.0
+texture = ExtResource( 2 )
+stretch_mode = 6
+
+[node name="L3" type="TextureRect" parent="HBoxContainer/LifeContainer"]
+margin_left = 136.0
+margin_right = 200.0
+margin_bottom = 57.0
+texture = ExtResource( 2 )
+stretch_mode = 6
+
+[node name="L4" type="TextureRect" parent="HBoxContainer/LifeContainer"]
+margin_left = 204.0
+margin_right = 268.0
+margin_bottom = 57.0
+texture = ExtResource( 2 )
+stretch_mode = 6
+
+[node name="L5" type="TextureRect" parent="HBoxContainer/LifeContainer"]
+margin_left = 272.0
+margin_right = 336.0
+margin_bottom = 57.0
+texture = ExtResource( 2 )
+stretch_mode = 6

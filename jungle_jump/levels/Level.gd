@@ -13,6 +13,7 @@ func _ready():
 	pickups.hide()
 	$Player.start($PlayerSpawn.position)
 	set_camera_limits()
+	spawn_pickups()
 	
 func set_camera_limits():
 	var map_size = $World.get_used_rect()

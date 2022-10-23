@@ -58,8 +58,11 @@
 	- [x] Health 
 - [x] Collectible 
 - [x] Level 
-- [ ] Scrolling background 
-- [ ] Dangerous Objects
-- [ ] Enemies
+- [x] Scrolling background 
+- [x] Dangerous Objects
+- [x] Enemies
+- [x] HUD
+- [x] Title screen
+- [ ] Main Scene
  
  
