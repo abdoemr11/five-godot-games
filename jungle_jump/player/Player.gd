@@ -1,6 +1,6 @@
 extends KinematicBody2D
 #state variables
-enum {IDLE, RUN, JUMP, HURT, DEAD}
+enum {IDLE, RUN, JUMP, HURT, DEAD, CROUCH, CLIMB}
 var state
 
 var anim
@@ -23,11 +23,16 @@ var life
 var max_jumps = 2
 var jump_count = 0
 
+#Climbing variables
+export (int) var climb_speed
+var is_on_ladder = false
+
 func _ready():
 	change_state(IDLE)
 
 func _physics_process(delta):
-	velocity.y += gravity *delta
+	if state != CLIMB:
+		velocity.y += gravity *delta
 	
 	if velocity.y > 0 and state == JUMP:
 		new_anim = 'jump_down'
@@ -66,6 +71,8 @@ func get_input():
 	var right = Input.is_action_pressed("right")
 	var left = Input.is_action_pressed("left")
 	var jump = Input.is_action_just_pressed("jump")
+	var down = Input.is_action_pressed("crouch")
+	var climb = Input.is_action_pressed("climb")
 	velocity.x =0
 	if right:
 		velocity.x += run_speed
@@ -78,15 +85,42 @@ func get_input():
 #		change_state(JUMP)
 		print("Jumping")
 		velocity.y = jump_speed
+	
+	#Climbing
+	if climb and state != CLIMB and is_on_ladder:
+		change_state(CLIMB)
+	if state == CLIMB:
+		if climb:
+			velocity.y = -climb_speed
+			new_anim = 'climb'
+		elif down:
+			velocity.y = climb_speed
+			new_anim = 'climb'
+		else:
+			velocity.y = 0
+			new_anim = 'climb_idle'
 		
+		
+	if state == CLIMB and not is_on_ladder:
+		change_state(IDLE)
+	
+	#Crouch state in and out
+	if down and is_on_floor():
+		change_state(CROUCH)
+	if !down and state == CROUCH:
+		change_state(IDLE)	
+			
 	#Double jump
 	if jump and state == JUMP and jump_count < max_jumps:
 		new_anim = 'jump_up'
 		velocity.y = jump_speed/1.5
 		jump_count += 1	
+	
+	#This is comment is not true anymore
+	#state getting updating not only here	
 	# Handle State transistions 
 	#refer to the state diagram page 162
-	if state == IDLE and velocity.x != 0:
+	if state in [IDLE, CROUCH] and velocity.x != 0:
 		change_state(RUN)
 	if state == RUN and velocity.x == 0:
 		change_state(IDLE)
@@ -125,8 +159,14 @@ func change_state(new_state):
 			$JumpSound.play()
 			new_anim = 'jump_up'
 			jump_count = 1
+		CROUCH:
+			new_anim = 'crouch'
+		
+		CLIMB:
+			new_anim = 'climb'
 		DEAD:
 			emit_signal("dead")
+		
 	print(state, " ", new_anim)
 
 func start(pos):

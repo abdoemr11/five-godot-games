@@ -68,7 +68,22 @@
 - [x] Sound Effects
 - [x] Double Jump
 - [x] Dust particles
-- [ ] Crouching state
-- [ ] Climping Ladder
+- [x] Crouching state
+- [x] Climping Ladder  
+	- Added new animation for climb idle
+- [x] Moving Platform
+
+## 3D MiniGolf
+- [x] Introduction to 3D
+- [x] Meshes
+- [x] Cameras
+- [x] Project setup
+- [x] Creating the course
+	- [x] MeshGrid lighting
+	- [x] Finishing the scene
+- [ ] Ball
+	
+
+
  
  
